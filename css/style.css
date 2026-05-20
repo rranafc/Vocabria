@@ -1,0 +1,505 @@
+/* ==============================================
+   VOCABRIA — Global Stylesheet
+   Mobile-friendly, fully responsive
+============================================== */
+
+/* ---------- RESET ---------- */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+body {
+    font-family: 'Fredoka', sans-serif;
+    background: #fffdf7;
+    overflow-x: hidden;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+/* ==============================================
+   HEADER
+============================================== */
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 8%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    gap: 20px;
+}
+
+/* LOGO */
+
+.logo img {
+    width: 180px;
+    height: auto;
+}
+
+/* NAV */
+
+nav {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #1e293b;
+    font-size: 17px;
+    font-weight: 500;
+    transition: color 0.25s;
+    white-space: nowrap;
+}
+
+nav a:hover {
+    color: #7c3aed;
+}
+
+/* NAV BUTTONS */
+
+.nav-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-shrink: 0;
+    visibility: hidden; /* hidden until auth resolves — prevents login/signup flash */
+}
+
+.login-btn,
+.signup-btn {
+    border: none;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+}
+
+.login-btn {
+    background: transparent;
+    border: 2px solid #7c3aed;
+    color: #7c3aed;
+}
+
+.signup-btn {
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    color: white;
+    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.25);
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* HAMBURGER BUTTON (hidden on desktop) */
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    flex-shrink: 0;
+    z-index: 1100;
+}
+
+.hamburger span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background: #13265c;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Hamburger → X animation */
+.hamburger.open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* MOBILE NAV OVERLAY */
+
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(16px);
+    z-index: 999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 40px 8%;
+    text-align: center;
+}
+
+.mobile-nav.open {
+    display: flex;
+    animation: fadeIn 0.25s ease both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.mobile-nav a {
+    text-decoration: none;
+    color: #13265c;
+    font-size: 28px;
+    font-weight: 700;
+    transition: color 0.2s;
+}
+
+.mobile-nav a:hover {
+    color: #7c3aed;
+}
+
+.mobile-nav-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 280px;
+    margin-top: 10px;
+}
+
+.mobile-nav-buttons .login-btn,
+.mobile-nav-buttons .signup-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* ==============================================
+   HERO
+============================================== */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 140px 8% 80px;
+    gap: 50px;
+}
+
+/* HERO TEXT */
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-text h1 {
+    font-size: 70px;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    color: #13265c;
+}
+
+.hero-text span {
+    background: linear-gradient(90deg, #7c3aed, #ec4899, #f59e0b, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-text p {
+    font-size: 21px;
+    line-height: 1.7;
+    color: #64748b;
+    margin-bottom: 35px;
+}
+
+/* HERO BUTTONS */
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.start-btn,
+.learn-btn {
+    border: none;
+    padding: 15px 28px;
+    border-radius: 60px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.start-btn {
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    color: white;
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.30);
+}
+
+.learn-btn {
+    background: white;
+    border: 3px solid #facc15;
+    color: #1e293b;
+    box-shadow: 0 10px 25px rgba(250, 204, 21, 0.20);
+}
+
+.start-btn:hover,
+.learn-btn:hover {
+    transform: translateY(-5px);
+}
+
+/* HERO IMAGE */
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-image img {
+    width: 520px;
+    max-width: 100%;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-15px); }
+}
+
+/* ==============================================
+   FEATURES
+============================================== */
+
+.features {
+    padding: 80px 8% 100px;
+    background: #eef6ff;
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 45px;
+    color: #13265c;
+    margin-bottom: 50px;
+}
+
+/* CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+}
+
+.card {
+    background: white;
+    padding: 40px 28px;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.icon {
+    font-size: 50px;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    font-size: 26px;
+    color: #7c3aed;
+    margin-bottom: 12px;
+}
+
+.card p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #64748b;
+}
+
+/* ==============================================
+   LOGGED-IN HEADER STATE
+============================================== */
+
+.nav-username {
+    font-size: 16px;
+    font-weight: 700;
+    color: #7c3aed;
+    white-space: nowrap;
+}
+
+.logout-btn {
+    border: 2px solid #7c3aed;
+    background: transparent;
+    color: #7c3aed;
+    border-radius: 50px;
+    padding: 9px 20px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+    white-space: nowrap;
+}
+
+.logout-btn:hover { transform: translateY(-2px); }
+
+/* ==============================================
+   RESPONSIVE — Tablet (max 1024px)
+============================================== */
+
+@media (max-width: 1024px) {
+
+    header {
+        padding: 16px 5%;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 130px 6% 70px;
+        gap: 40px;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-text h1 { font-size: 52px; }
+    .hero-text p  { font-size: 19px; }
+
+    .hero-image img { width: 380px; }
+
+    .features h2 { font-size: 38px; }
+}
+
+/* ==============================================
+   RESPONSIVE — Mobile (max 768px)
+============================================== */
+
+@media (max-width: 768px) {
+
+    /* Hide desktop nav & buttons, show hamburger */
+    nav,
+    .nav-buttons {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    header {
+        padding: 14px 5%;
+    }
+
+    .logo img {
+        width: 140px;
+    }
+
+    /* Hero */
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 110px 5% 60px;
+        gap: 32px;
+        min-height: auto;
+    }
+
+    .hero-text h1 { font-size: 40px; }
+    .hero-text p  { font-size: 17px; margin-bottom: 28px; }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .start-btn,
+    .learn-btn {
+        width: 100%;
+        max-width: 300px;
+        font-size: 17px;
+        padding: 14px 24px;
+    }
+
+    .hero-image img { width: 260px; }
+
+    /* Features */
+    .features {
+        padding: 60px 5% 80px;
+    }
+
+    .features h2 { font-size: 30px; margin-bottom: 35px; }
+
+    .cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .card {
+        padding: 30px 22px;
+    }
+
+    .card h3  { font-size: 22px; }
+    .card p   { font-size: 16px; }
+    .icon     { font-size: 42px; }
+}
+
+/* ==============================================
+   RESPONSIVE — Small phones (max 400px)
+============================================== */
+
+@media (max-width: 400px) {
+    .hero-text h1 { font-size: 34px; }
+    .logo img     { width: 120px; }
+}

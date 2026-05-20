@@ -1,0 +1,196 @@
+/* =========================
+   HERO
+========================= */
+
+.about-hero{
+    min-height: 80vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 50px;
+
+    padding: 150px 8% 80px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #fff7ed,
+        #fef9c3,
+        #e0f2fe
+    );
+}
+
+/* TEXT */
+
+.about-text{
+    flex: 1;
+}
+
+/* BADGE */
+
+.about-badge{
+    display: inline-block;
+
+    padding: 10px 20px;
+
+    border-radius: 50px;
+
+    background: white;
+
+    color: #7c3aed;
+
+    font-weight: 600;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+
+.about-text h1{
+    font-size: 70px;
+
+    color: #13265c;
+
+    margin-bottom: 20px;
+}
+
+.about-text span{
+    color: #7c3aed;
+}
+
+/* PARAGRAPH */
+
+.about-text p{
+    font-size: 22px;
+
+    color: #64748b;
+
+    line-height: 1.8;
+}
+
+/* IMAGE */
+
+.about-image{
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+}
+
+.about-image img{
+    width: 450px;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+/* =========================
+   MISSION SECTION
+========================= */
+
+.mission-section{
+    padding: 80px 8%;
+
+    background: #eef6ff;
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 30px;
+}
+
+/* CARD */
+
+.mission-card{
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 30px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+
+    transition: 0.3s;
+}
+
+.mission-card:hover{
+    transform: translateY(-10px);
+}
+
+/* CARD TITLE */
+
+.mission-card h2{
+    font-size: 30px;
+
+    color: #7c3aed;
+
+    margin-bottom: 20px;
+}
+
+/* CARD TEXT */
+
+.mission-card p{
+    font-size: 18px;
+
+    color: #64748b;
+
+    line-height: 1.8;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 1000px){
+
+    .about-hero{
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .about-image img{
+        width: 320px;
+    }
+
+    .about-text h1{
+        font-size: 50px;
+    }
+}
+
+@media(max-width: 600px){
+
+    .about-text h1{
+        font-size: 38px;
+    }
+
+    .about-text p{
+        font-size: 18px;
+    }
+}
+
+.nav-username {
+            font-size: 16px;
+            font-weight: 600;
+            color: #7c3aed;
+        }
+
+.logout-btn {
+            border: 2px solid #7c3aed;
+            background: transparent;
+            color: #7c3aed;
+            border-radius: 50px;
+            padding: 9px 20px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .logout-btn:hover { transform: translateY(-2px); }

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vocabria</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ================================
+         HEADER
+    ================================= -->
+    <header>
+
+        <div class="logo">
+            <img src="images/logo.png" alt="Vocabria Logo">
+        </div>
+
+        <!-- Desktop nav -->
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <!-- Desktop buttons -->
+        <div class="nav-buttons" id="nav-buttons">
+            <button class="login-btn"
+                onclick="window.location.href='login.html'">
+                Log In
+            </button>
+            <button class="signup-btn"
+                onclick="window.location.href='register.html'">
+                Sign Up
+            </button>
+        </div>
+
+        <!-- Hamburger (mobile only) -->
+        <button class="hamburger"
+            id="hamburger"
+            aria-label="Open menu"
+            aria-expanded="false"
+            onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+    </header>
+
+    <!-- Mobile nav overlay -->
+    <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+
+        <a href="index.html"       onclick="closeMenu()">Home</a>
+        <a href="games.html"       onclick="closeMenu()">Games</a>
+        <a href="leaderboard.html" onclick="closeMenu()">Leaderboard</a>
+        <a href="about.html"       onclick="closeMenu()">About</a>
+        <a href="contact.html"     onclick="closeMenu()">Contact</a>
+
+        <div class="mobile-nav-buttons">
+            <button class="login-btn"
+                onclick="window.location.href='login.html'">
+                Log In
+            </button>
+            <button class="signup-btn"
+                onclick="window.location.href='register.html'">
+                Sign Up
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ================================
+         HERO
+    ================================= -->
+    <section class="hero">
+
+        <!-- LEFT: text -->
+        <div class="hero-text">
+
+            <h1>
+                Learn Vocabulary
+                Through
+                <span>Fun Games!</span>
+            </h1>
+
+            <p>
+                Play exciting games, improve your vocabulary,
+                and track your progress while having fun.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="start-btn"
+                    onclick="window.location.href='games.html'">
+                    🎮 Start Learning
+                </button>
+
+                <button class="learn-btn"
+                    onclick="document.querySelector('.features')
+                        .scrollIntoView({ behavior: 'smooth' })">
+                    ⭐ Learn More
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT: image -->
+        <div class="hero-image">
+            <img src="images/hero.png" alt="Vocabria mascot">
+        </div>
+
+    </section>
+
+    <!-- ================================
+         FEATURES
+    ================================= -->
+    <section class="features">
+
+        <h2>Why You'll Love Vocabria</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">🎮</div>
+                <h3>Interactive Games</h3>
+                <p>
+                    Enjoy exciting vocabulary games that
+                    make learning fun and effective.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">📈</div>
+                <h3>Track Progress</h3>
+                <p>
+                    Monitor scores and improve your
+                    vocabulary skills every day.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🏆</div>
+                <h3>Leaderboards</h3>
+                <p>
+                    Compete with friends and become
+                    the top learner.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================================
+         JS
+    ================================= -->
+    <script type="module">
+        import { updateHeader } from './js/auth.js'
+
+        /* ---- Update header if logged in ---- */
+        updateHeader()
+
+        /* ---- Hamburger menu ---- */
+        function toggleMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
+            const isOpen    = mobileNav.classList.toggle('open');
+            hamburger.classList.toggle('open', isOpen);
+            hamburger.setAttribute('aria-expanded', isOpen);
+            mobileNav.setAttribute('aria-hidden', !isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.remove('open');
+            hamburger.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            mobileNav.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        window.toggleMenu = toggleMenu;
+        window.closeMenu  = closeMenu;
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+        window.addEventListener('resize',   () => { if (window.innerWidth > 768) closeMenu(); });
+    </script>
+
+</body>
+</html>

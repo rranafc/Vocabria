@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match – Vocabria</title>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Fredoka', sans-serif;
+    background: #f5f0ff;
+    min-height: 100vh;
+    color: #13265c;
+}
+
+/* ---------- HERO ---------- */
+
+.memory-hero {
+    padding: 140px 8% 40px;
+    text-align: center;
+}
+
+.memory-hero h1 {
+    font-size: 48px;
+    color: #13265c;
+    margin-bottom: 10px;
+}
+
+.memory-hero p {
+    font-size: 20px;
+    color: #64748b;
+}
+
+/* ---------- TOP BAR ---------- */
+
+.memory-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 8%;
+    background: rgba(245,240,255,0.85);
+    backdrop-filter: blur(10px);
+}
+
+.memory-back-btn {
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #7c3aed;
+    transition: transform 0.2s;
+}
+
+.memory-back-btn:hover { transform: translateY(-2px); }
+
+/* ---------- HUD ---------- */
+
+.memory-hud {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.hud-pill {
+    font-size: 15px;
+    font-weight: 700;
+    color: #7c3aed;
+    background: white;
+    padding: 6px 16px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+}
+
+/* ---------- SECTION ---------- */
+
+.memory-section {
+    padding: 30px 8% 80px;
+    position: relative;
+}
+
+/* ---------- GRID ---------- */
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+    gap: 18px;
+    justify-content: center;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ---------- CARD ---------- */
+
+.memory-card {
+    position: relative;
+    height: 120px;
+    cursor: pointer;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.memory-card .front,
+.memory-card .back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    backface-visibility: hidden;
+    font-size: 22px;
+    font-weight: 800;
+    transition: transform 0.5s ease;
+}
+
+.memory-card .front {
+    background: #eef6ff;
+    border: 2px solid rgba(124,58,237,0.2);
+    color: #7c3aed;
+}
+
+.memory-card .back {
+    transform: rotateY(180deg);
+    background: white;
+    border: 2px solid rgba(124,58,237,0.25);
+    color: #13265c;
+}
+
+/* flipped state */
+.memory-card.flip .front { transform: rotateY(180deg); }
+.memory-card.flip .back  { transform: rotateY(360deg); }
+
+/* matched state */
+.memory-card.matched .back {
+    background: #f0fdf4;
+    border-color: #22c55e;
+    color: #15803d;
+}
+
+/* ---------- WIN SCREEN ---------- */
+
+.win-screen {
+    text-align: center;
+    padding: 50px 20px;
+    animation: slideUp 0.4s ease both;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.win-screen h1 {
+    font-size: 54px;
+    color: #7c3aed;
+    margin-bottom: 10px;
+}
+
+.win-screen p {
+    font-size: 20px;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.win-screen .result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.win-screen button {
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 12px 24px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    transition: transform 0.2s;
+}
+
+.win-screen button:hover { transform: translateY(-2px); }
+
+.btn-primary {
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(124,58,237,0.30);
+}
+
+.btn-secondary {
+    background: white;
+    color: #7c3aed;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 800px) {
+    .memory-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+    .memory-hero h1 { font-size: 36px; }
+}
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <section class="memory-hero">
+        <h1>🧠 Memory Match</h1>
+        <p>Match the vocabulary words!</p>
+    </section>
+
+    <!-- TOP BAR -->
+    <div class="memory-topbar">
+        <button id="memory-back-btn" class="memory-back-btn" type="button">← Back</button>
+        <div class="memory-hud">
+            <div class="hud-pill" id="hud-moves">🔄 0 moves</div>
+            <div class="hud-pill" id="hud-pairs">✅ 0 / 0</div>
+        </div>
+    </div>
+
+    <!-- GAME -->
+    <section class="memory-section" id="memory-section">
+        <div class="memory-grid" id="memory-grid"></div>
+    </section>
+
+    <script type="module">
+/* =============================================
+   MEMORY MATCH LOGIC – Vocabria
+============================================= */
+
+/* ---------- WORD BANK ----------
+   Add as many pairs as you like.
+   The game will pick PAIR_COUNT at random.
+---------------------------------------- */
+const WORD_BANK = [
+    "APPLE", "BRAVE", "SMART", "HAPPY", "CLOUD",
+    "FLAME", "GRACE", "LIGHT", "VIVID", "SWIFT",
+    "NOBLE", "QUEST", "CRISP", "BLOOM", "EAGER"
+];
+
+const PAIR_COUNT = 6; // how many pairs to use per game
+
+/* ---------- STATE ---------- */
+let firstCard    = null;
+let secondCard   = null;
+let lockBoard    = false;
+let matchedPairs = 0;
+let moves        = 0;
+let totalPairs   = 0;
+
+/* ---------- BUILD GRID ---------- */
+function buildGrid() {
+    const grid = document.getElementById('memory-grid');
+    grid.innerHTML = '';
+
+    firstCard = secondCard = null;
+    lockBoard = false;
+    matchedPairs = 0;
+    moves = 0;
+
+    const words = shuffle([...WORD_BANK]).slice(0, PAIR_COUNT);
+    totalPairs = words.length;
+
+    // Each word appears twice
+    const pairs = shuffle([...words, ...words]);
+
+    pairs.forEach(word => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.word = word;
+        card.innerHTML = `
+            <div class="front">?</div>
+            <div class="back">${word}</div>
+        `;
+        card.addEventListener('click', onCardClick);
+        grid.appendChild(card);
+    });
+
+    updateHUD();
+}
+
+/* ---------- CARD CLICK ---------- */
+function onCardClick() {
+    if (lockBoard) return;
+    if (this === firstCard) return;
+    if (this.classList.contains('matched')) return;
+
+    this.classList.add('flip');
+
+    if (!firstCard) {
+        firstCard = this;
+        return;
+    }
+
+    secondCard = this;
+    moves++;
+    updateHUD();
+    checkMatch();
+}
+
+/* ---------- CHECK MATCH ---------- */
+function checkMatch() {
+    if (firstCard.dataset.word === secondCard.dataset.word) {
+        firstCard.classList.add('matched');
+        secondCard.classList.add('matched');
+        matchedPairs++;
+        updateHUD();
+        resetBoard();
+        if (matchedPairs === totalPairs) {
+            setTimeout(showWinScreen, 500);
+        }
+    } else {
+        lockBoard = true;
+        setTimeout(() => {
+            firstCard.classList.remove('flip');
+            secondCard.classList.remove('flip');
+            resetBoard();
+        }, 1000);
+    }
+}
+
+/* ---------- RESET BOARD STATE ---------- */
+function resetBoard() {
+    firstCard = secondCard = null;
+    lockBoard = false;
+}
+
+/* ---------- HUD ---------- */
+function updateHUD() {
+    document.getElementById('hud-moves').textContent = `🔄 ${moves} move${moves !== 1 ? 's' : ''}`;
+    document.getElementById('hud-pairs').textContent = `✅ ${matchedPairs} / ${totalPairs}`;
+}
+
+/* ---------- WIN SCREEN ---------- */
+import { saveScore } from '../js/scores.js';
+
+function showWinScreen() {
+
+    const memoryScore = Math.max(0, 200 - moves * 10);
+
+    saveScore('Memory', memoryScore);
+
+    document.getElementById('memory-section').innerHTML = `
+        <div class="win-screen">
+            <h1>🎉 You Win!</h1>
+
+            <p>
+                You matched all the words in
+                <strong>${moves} moves</strong>!
+            </p>
+
+            <div class="result-actions">
+                <button class="btn-primary" onclick="restartGame()">
+                    🔄 Play Again
+                </button>
+
+                <button class="btn-secondary" onclick="goBack()">
+                    ← Back to Games
+                </button>
+            </div>
+        </div>
+    `;
+    window.restartGame = restartGame;
+    window.goBack = goBack;
+}
+
+/* ---------- RESTART ---------- */
+function restartGame() {
+    document.getElementById('memory-section').innerHTML = `<div class="memory-grid" id="memory-grid"></div>`;
+    buildGrid();
+}
+
+/* ---------- BACK ---------- */
+function goBack() {
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = 'games.html';
+}
+
+document.getElementById('memory-back-btn').addEventListener('click', goBack);
+
+/* ---------- SHUFFLE ---------- */
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+/* ---------- START ---------- */
+buildGrid();
+    </script>
+
+</body>
+</html>

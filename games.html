@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Vocabria Games</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/gameshub.css">
+
+    <!-- FONT -->
+    <link rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+
+            <img src="images/logo.png"
+            alt="Logo">
+
+        </div>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+        <div class="nav-buttons" id="nav-buttons">
+
+            <button class="login-btn"
+            onclick="window.location.href='login.html'">
+
+                Log In
+
+            </button>
+
+            <button class="signup-btn"
+            onclick="window.location.href='register.html'">
+
+                Sign Up
+
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- HERO -->
+
+    <section class="games-hero">
+
+        <h1>
+            🎮 Vocabulary Games
+        </h1>
+
+        <p>
+            Choose a fun game and start learning!
+        </p>
+
+    </section>
+
+    <!-- GAME GRID -->
+
+    <section class="games-grid-section">
+
+        <div class="games-grid">
+
+            <!-- QUIZ GAME -->
+
+            <div class="game-card">
+
+                <img src="images/quiz.svg"
+                alt="Quiz Game">
+
+                <div class="game-info">
+
+                    <h2>
+                        🧠 Quiz Challenge
+                    </h2>
+
+                    <p>
+                        Answer vocabulary questions
+                        and earn points.
+                    </p>
+
+                    <button
+                    onclick="window.location.href='games/quiz.html'">
+
+                        Play Now
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- SCRAMBLE GAME -->
+
+            <div class="game-card">
+
+                <img src="images/scramble.svg"
+                alt="Scramble Game">
+
+                <div class="game-info">
+
+                    <h2>
+                        🔀 Word Scramble
+                    </h2>
+
+                    <p>
+                        Unscramble letters to form
+                        the correct word.
+                    </p>
+
+                    <button
+                    onclick="window.location.href='games/scramble.html'">
+
+                        Play Now
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- MEMORY GAME -->
+
+            <div class="game-card">
+
+                <img src="images/memory.svg"
+                alt="Memory Game">
+
+                <div class="game-info">
+
+                    <h2>
+                        🧠 Memory Match
+                    </h2>
+
+                    <p>
+                        Match vocabulary words and
+                        improve memory skills.
+                    </p>
+
+                    <button
+                    onclick="window.location.href='games/memory.html'">
+
+                        Play Now
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- FILL IN THE BLANK GAME -->
+
+            <div class="game-card">
+
+                <img src="images/fitb.svg"
+                alt="Fill in the Blank Game">
+
+                <div class="game-info">
+
+                    <h2>
+                        ✏️ Fill in the Blank
+                    </h2>
+
+                    <p>
+                        Pick the word that best
+                        completes each sentence.
+                    </p>
+
+                    <button
+                    onclick="window.location.href='games/fileintheblank.html'">
+
+                        Play Now
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- SPELLING GAME -->
+
+            <div class="game-card game-card--soon">
+
+                <img src="images/spelling.svg"
+                alt="Spelling Game">
+
+                <div class="game-info">
+
+                    <h2>
+                        🔤 Spelling Master
+                    </h2>
+
+                    <p>
+                        Type the correct spelling
+                        before time runs out.
+                    </p>
+
+                    <button class="btn-coming-soon" disabled>
+
+                        🚧 Coming Soon
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <script type="module">
+        import { updateHeader } from './js/auth.js'
+
+        /* ---- Update header if logged in ---- */
+        updateHeader()
+
+        /* ---- Hamburger menu ---- */
+        function toggleMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
+            const isOpen    = mobileNav.classList.toggle('open');
+            hamburger.classList.toggle('open', isOpen);
+            hamburger.setAttribute('aria-expanded', isOpen);
+            mobileNav.setAttribute('aria-hidden', !isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.remove('open');
+            hamburger.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            mobileNav.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        window.toggleMenu = toggleMenu;
+        window.closeMenu  = closeMenu;
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+        window.addEventListener('resize',   () => { if (window.innerWidth > 768) closeMenu(); });
+    </script>
+</body>
+
+</html>

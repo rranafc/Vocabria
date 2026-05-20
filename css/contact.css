@@ -1,0 +1,293 @@
+/* =========================
+   HERO
+========================= */
+
+.contact-hero{
+    min-height: 75vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 50px;
+
+    padding: 150px 8% 80px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #fff7ed,
+        #fef9c3,
+        #e0f2fe
+    );
+}
+
+/* TEXT */
+
+.contact-text{
+    flex: 1;
+}
+
+/* BADGE */
+
+.contact-badge{
+    display: inline-block;
+
+    padding: 10px 20px;
+
+    border-radius: 50px;
+
+    background: white;
+
+    color: #7c3aed;
+
+    font-weight: 600;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+
+.contact-text h1{
+    font-size: 70px;
+
+    color: #13265c;
+
+    margin-bottom: 20px;
+}
+
+.contact-text span{
+    color: #7c3aed;
+}
+
+/* PARAGRAPH */
+
+.contact-text p{
+    font-size: 22px;
+
+    color: #64748b;
+
+    line-height: 1.8;
+}
+
+/* IMAGE */
+
+.contact-image{
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+}
+
+.contact-image img{
+    width: 450px;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+/* =========================
+   CONTACT SECTION
+========================= */
+
+.contact-section{
+    padding: 80px 8%;
+
+    background: #eef6ff;
+
+    display: flex;
+
+    gap: 40px;
+
+    flex-wrap: wrap;
+}
+
+/* LEFT SIDE */
+
+.contact-info{
+    flex: 1;
+}
+
+/* INFO CARD */
+
+.info-card{
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 30px;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+
+    transition: 0.3s;
+}
+
+.info-card:hover{
+    transform: translateY(-8px);
+}
+
+.info-card h2{
+    color: #7c3aed;
+
+    margin-bottom: 15px;
+
+    font-size: 28px;
+}
+
+.info-card p{
+    color: #64748b;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+}
+
+/* RIGHT SIDE */
+
+.contact-form-container{
+    flex: 1;
+}
+
+/* FORM */
+
+.contact-form{
+    background: white;
+
+    padding: 45px;
+
+    border-radius: 35px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.contact-form h2{
+    font-size: 35px;
+
+    color: #13265c;
+
+    margin-bottom: 25px;
+}
+
+/* INPUTS */
+
+.contact-form input,
+.contact-form textarea{
+    width: 100%;
+
+    padding: 16px 20px;
+
+    margin-bottom: 20px;
+
+    border: 2px solid #e2e8f0;
+
+    border-radius: 18px;
+
+    outline: none;
+
+    font-size: 16px;
+
+    transition: 0.3s;
+}
+
+.contact-form textarea{
+    height: 180px;
+
+    resize: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus{
+    border-color: #7c3aed;
+}
+
+/* BUTTON */
+
+.contact-form button{
+    width: 100%;
+
+    padding: 16px;
+
+    border: none;
+
+    border-radius: 18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #7c3aed,
+        #9333ea
+    );
+
+    color: white;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.contact-form button:hover{
+    transform: translateY(-4px);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 1000px){
+
+    .contact-hero{
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .contact-image img{
+        width: 320px;
+    }
+
+    .contact-text h1{
+        font-size: 50px;
+    }
+
+    .contact-section{
+        flex-direction: column;
+    }
+}
+
+@media(max-width: 600px){
+
+    .contact-text h1{
+        font-size: 38px;
+    }
+
+    .contact-form{
+        padding: 30px;
+    }
+}
+
+.nav-username {
+            font-size: 16px;
+            font-weight: 600;
+            color: #7c3aed;
+        }
+
+.logout-btn {
+            border: 2px solid #7c3aed;
+            background: transparent;
+            color: #7c3aed;
+            border-radius: 50px;
+            padding: 9px 20px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .logout-btn:hover { transform: translateY(-2px); }

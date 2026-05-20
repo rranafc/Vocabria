@@ -1,0 +1,236 @@
+/* =========================
+   REGISTER PAGE
+========================= */
+
+.register-page{
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 50px;
+
+    padding: 120px 8% 50px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #fff7ed,
+        #fef9c3,
+        #e0f2fe
+    );
+}
+
+/* =========================
+   LEFT IMAGE
+========================= */
+
+.register-image{
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-image img{
+    width: 500px;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+/* =========================
+   REGISTER CONTAINER
+========================= */
+
+.register-container{
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+}
+
+/* =========================
+   REGISTER BOX
+========================= */
+
+.register-box{
+    width: 100%;
+    max-width: 500px;
+
+    background: white;
+
+    padding: 50px;
+
+    border-radius: 35px;
+
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.register-box h1{
+    font-size: 42px;
+
+    color: #13265c;
+
+    margin-bottom: 10px;
+}
+
+.register-box p{
+    color: #64748b;
+
+    line-height: 1.7;
+
+    margin-bottom: 35px;
+}
+
+/* =========================
+   INPUT GROUP
+========================= */
+
+.input-group{
+    margin-bottom: 22px;
+}
+
+.input-group label{
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    color: #334155;
+}
+
+.input-group input{
+    width: 100%;
+
+    padding: 15px 20px;
+
+    border: 2px solid #e2e8f0;
+
+    border-radius: 15px;
+
+    outline: none;
+
+    font-size: 16px;
+
+    transition: 0.3s;
+}
+
+.input-group input:focus{
+    border-color: #7c3aed;
+
+    box-shadow: 0 0 10px rgba(124,58,237,0.2);
+}
+
+/* =========================
+   REGISTER BUTTON
+========================= */
+
+.register-btn-main{
+    width: 100%;
+
+    padding: 16px;
+
+    border: none;
+
+    border-radius: 18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #7c3aed,
+        #9333ea
+    );
+
+    color: white;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    margin-top: 10px;
+}
+
+.register-btn-main:hover{
+    transform: translateY(-4px);
+
+    box-shadow: 0 10px 25px rgba(124,58,237,0.3);
+}
+
+/* =========================
+   BOTTOM TEXT
+========================= */
+
+.bottom-text{
+    text-align: center;
+
+    margin-top: 25px;
+
+    color: #64748b;
+}
+
+.bottom-text a{
+    color: #7c3aed;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+.bottom-text a:hover{
+    text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 1000px){
+
+    .register-page{
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .register-image img{
+        width: 320px;
+    }
+
+    .register-box{
+        padding: 35px;
+    }
+
+    .register-box h1{
+        font-size: 35px;
+    }
+}
+
+@media(max-width: 600px){
+
+    .register-page{
+        padding: 120px 5% 50px;
+    }
+
+    .register-box{
+        border-radius: 25px;
+    }
+
+    .register-box h1{
+        font-size: 30px;
+    }
+
+    .input-group input{
+        padding: 13px 16px;
+    }
+}

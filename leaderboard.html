@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabria Leaderboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/leaderboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <style>
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #ede9fe 25%, #f3eeff 50%, #ede9fe 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shine 1.4s infinite;
+            border-radius: 16px;
+            height: 62px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes skeleton-shine {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+            font-size: 18px;
+        }
+
+        .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+        /* Nav username style */
+        .nav-username {
+            font-size: 16px;
+            font-weight: 600;
+            color: #7c3aed;
+        }
+
+        .logout-btn {
+            border: 2px solid #7c3aed;
+            background: transparent;
+            color: #7c3aed;
+            border-radius: 50px;
+            padding: 9px 20px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .logout-btn:hover { transform: translateY(-2px); }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo">
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="leaderboard.html">Leaderboard</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="nav-buttons" id="nav-buttons">
+            <button class="login-btn"
+            onclick="window.location.href='login.html'">
+                Log In
+            </button>
+            <button class="signup-btn"
+            onclick="window.location.href='register.html'">
+                Sign Up
+            </button>
+        </div>
+
+        <button class="hamburger" id="hamburger"
+            aria-label="Open menu" aria-expanded="false"
+            onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </button>
+
+    </header>
+
+    <!-- Mobile nav -->
+    <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="index.html"       onclick="closeMenu()">Home</a>
+        <a href="games.html"       onclick="closeMenu()">Games</a>
+        <a href="leaderboard.html" onclick="closeMenu()">Leaderboard</a>
+        <a href="about.html"       onclick="closeMenu()">About</a>
+        <a href="contact.html"     onclick="closeMenu()">Contact</a>
+        <div class="mobile-nav-buttons" id="mobile-nav-buttons">
+            <button class="login-btn"  onclick="window.location.href='login.html'">Log In</button>
+            <button class="signup-btn" onclick="window.location.href='register.html'">Sign Up</button>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="leaderboard-hero">
+        <div class="leaderboard-text">
+            <h1>🏆 Top Learners</h1>
+            <p>Compete with players and climb the Vocabria leaderboard!</p>
+        </div>
+        <div class="leaderboard-image">
+            <img src="images/hero.png" alt="Mascot">
+        </div>
+    </section>
+
+    <!-- LEADERBOARD -->
+    <section class="leaderboard-section">
+
+        <!-- TABS -->
+        <div class="leaderboard-tabs">
+            <button class="tab-btn active" onclick="loadLeaderboard('all', this)">🌐 All Games</button>
+            <button class="tab-btn" onclick="loadLeaderboard('Quiz', this)">🧠 Quiz</button>
+            <button class="tab-btn" onclick="loadLeaderboard('Scramble', this)">🔀 Scramble</button>
+            <button class="tab-btn" onclick="loadLeaderboard('Memory', this)">🃏 Memory</button>
+            <button class="tab-btn" onclick="loadLeaderboard('Fill in Blank', this)">✏️ Fill in Blank</button>
+        </div>
+
+        <div class="leaderboard-container" id="leaderboard-container">
+            <!-- Populated by JS -->
+        </div>
+
+    </section>
+
+    <script type="module">
+        import { fetchLeaderboard } from './js/scores.js'
+        import { updateHeader }     from './js/auth.js'
+
+        /* ---- Update header (show username if logged in) ---- */
+        updateHeader()
+
+        /* ---- Game emoji map ---- */
+        const gameEmoji = {
+            'Quiz':          '🧠',
+            'Scramble':      '🔀',
+            'Memory':        '🃏',
+            'Fill in Blank': '✏️',
+        }
+
+        /* ---- Render podium (top 3) ---- */
+        function renderPodium(top3) {
+            if (top3.length === 0) return ''
+
+            const medal  = ['🥇', '🥈', '🥉']
+            const cls    = ['gold', 'silver', 'bronze']
+            /* Podium order: silver(1) gold(0) bronze(2) */
+            const order  = [1, 0, 2].filter(i => top3[i])
+
+            const cards = order.map(i => {
+                const p = top3[i]
+                if (!p) return ''
+                return `
+                    <div class="podium-card ${cls[i]}">
+                        <div class="podium-medal">${medal[i]}</div>
+                        <div class="podium-avatar">${p.username[0].toUpperCase()}</div>
+                        <div class="podium-name">${p.username}</div>
+                        <div class="podium-score">⭐ ${p.score} pts</div>
+                    </div>
+                `
+            }).join('')
+
+            return `<div class="leaderboard-podium">${cards}</div>`
+        }
+
+        /* ---- Render rows (rank 4+) ---- */
+        function renderRows(players, currentUserId) {
+            if (players.length <= 3) return ''
+
+            const rows = players.slice(3).map((p, i) => {
+                const rank    = i + 4
+                const isYou   = p.user_id === currentUserId
+                const badge   = gameEmoji[p.game] ?? '🎮'
+
+                return `
+                    <div class="leaderboard-item ${isYou ? 'you' : ''}" data-game="${p.game}">
+                        <span><span class="rank-num">${rank}</span></span>
+                        <span class="player-cell">
+                            <span class="player-initial">${p.username[0].toUpperCase()}</span>
+                            <span class="player-name">${isYou ? 'You' : p.username}</span>
+                        </span>
+                        <span><span class="game-badge">${badge} ${p.game}</span></span>
+                        <span class="score-cell">${p.score}</span>
+                    </div>
+                `
+            }).join('')
+
+            return `
+                <div class="leaderboard-divider"><hr><span>Rankings</span><hr></div>
+                <div class="leaderboard-header">
+                    <span>Rank</span>
+                    <span>Player</span>
+                    <span>Top Game</span>
+                    <span>Score</span>
+                </div>
+                ${rows}
+            `
+        }
+
+        /* ---- Main load function ---- */
+        window.loadLeaderboard = async function(game, tabBtn) {
+
+            /* Update active tab */
+            if (tabBtn) {
+                document.querySelectorAll('.tab-btn')
+                    .forEach(b => b.classList.remove('active'))
+                tabBtn.classList.add('active')
+            }
+
+            const container = document.getElementById('leaderboard-container')
+
+            /* Show skeleton loader */
+            container.innerHTML = `
+                <div class="skeleton"></div>
+                <div class="skeleton"></div>
+                <div class="skeleton"></div>
+                <div class="skeleton" style="opacity:0.6"></div>
+                <div class="skeleton" style="opacity:0.4"></div>
+            `
+
+            const players = await fetchLeaderboard(game, 20)
+
+            /* Get current user id for "You" highlight */
+            const { supabase } = await import('./js/supabase.js')
+            const { data: { user } } = await supabase.auth.getUser()
+            const currentUserId = user?.id ?? null
+
+            if (players.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🏜️</div>
+                        <p>No scores yet — be the first to play!</p>
+                    </div>
+                `
+                return
+            }
+
+            container.innerHTML =
+                renderPodium(players.slice(0, 3)) +
+                renderRows(players, currentUserId)
+        }
+
+        /* ---- Load on page open ---- */
+        loadLeaderboard('all', null)
+
+        /* ---- Hamburger ---- */
+        window.toggleMenu = function() {
+            const h = document.getElementById('hamburger')
+            const m = document.getElementById('mobile-nav')
+            const open = m.classList.toggle('open')
+            h.classList.toggle('open', open)
+            h.setAttribute('aria-expanded', open)
+            m.setAttribute('aria-hidden', !open)
+            document.body.style.overflow = open ? 'hidden' : ''
+        }
+
+        window.closeMenu = function() {
+            const h = document.getElementById('hamburger')
+            const m = document.getElementById('mobile-nav')
+            m.classList.remove('open')
+            h.classList.remove('open')
+            h.setAttribute('aria-expanded', 'false')
+            m.setAttribute('aria-hidden', 'true')
+            document.body.style.overflow = ''
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu() })
+        window.addEventListener('resize',   () => { if (window.innerWidth > 768) closeMenu() })
+
+    </script>
+
+</body>
+</html>

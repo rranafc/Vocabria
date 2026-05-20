@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill in the Blank – Vocabria</title>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+/* =============================================
+   FILL IN THE BLANK – Vocabria  (single file)
+============================================= */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Fredoka', sans-serif;
+    background: #f5f0ff;
+    min-height: 100vh;
+    color: #13265c;
+}
+
+/* ---------- HERO ---------- */
+
+.fitb-hero {
+    padding: 100px 8% 36px;
+    text-align: center;
+}
+
+.fitb-hero h1 {
+    font-size: 48px;
+    color: #13265c;
+    margin-bottom: 10px;
+}
+
+.fitb-hero p {
+    font-size: 20px;
+    color: #64748b;
+}
+
+/* ---------- TOP BAR ---------- */
+
+.fitb-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 8%;
+    background: rgba(245,240,255,0.88);
+    backdrop-filter: blur(10px);
+}
+
+.fitb-back-btn {
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #7c3aed;
+    transition: transform 0.2s;
+}
+
+.fitb-back-btn:hover { transform: translateY(-2px); }
+
+/* ---------- HUD ---------- */
+
+.fitb-hud {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hud-pill {
+    font-size: 15px;
+    font-weight: 700;
+    color: #7c3aed;
+    background: white;
+    padding: 6px 16px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    white-space: nowrap;
+}
+
+.hud-progress-wrap {
+    width: 110px;
+    height: 10px;
+    background: rgba(124,58,237,0.15);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.hud-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #7c3aed, #a855f7);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+/* ---------- MAIN SECTION ---------- */
+
+.fitb-section {
+    padding: 30px 8% 100px;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+/* ---------- SENTENCE CARD ---------- */
+
+.sentence-card {
+    background: white;
+    border-radius: 28px;
+    padding: 44px 40px 38px;
+    box-shadow: 0 20px 50px rgba(124,58,237,0.10);
+    text-align: center;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.4s ease both;
+}
+
+.sentence-card::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(124,58,237,0.05);
+    pointer-events: none;
+}
+
+.sentence-card::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(168,85,247,0.05);
+    pointer-events: none;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-counter {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #a78bfa;
+    margin-bottom: 22px;
+}
+
+/* The sentence with the blank */
+.sentence-text {
+    font-size: 24px;
+    font-weight: 600;
+    color: #13265c;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.blank-slot {
+    display: inline-block;
+    min-width: 140px;
+    border-bottom: 3.5px solid #7c3aed;
+    padding: 2px 12px;
+    margin: 0 6px;
+    color: #7c3aed;
+    font-weight: 800;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: bottom;
+    transition: border-color 0.3s, color 0.3s;
+    position: relative;
+}
+
+.blank-slot.filled   { color: #13265c; border-color: #7c3aed; }
+.blank-slot.correct  { color: #16a34a; border-color: #22c55e; }
+.blank-slot.wrong    { color: #dc2626; border-color: #ef4444; animation: shake 0.35s ease; }
+.blank-slot.revealed { color: #7c3aed; border-color: #a78bfa; }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-6px); }
+    40%       { transform: translateX(6px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+/* small hint under sentence */
+.word-length-hint {
+    font-size: 13px;
+    color: #94a3b8;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+/* ---------- WORD BANK CHIPS ---------- */
+
+.word-bank-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    animation: slideUp 0.45s 0.08s ease both;
+}
+
+.word-chip {
+    padding: 12px 22px;
+    background: white;
+    border: 2.5px solid rgba(124,58,237,0.22);
+    border-radius: 999px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #13265c;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    transition: all 0.18s ease;
+    user-select: none;
+}
+
+.word-chip:hover:not(.used):not(:disabled) {
+    border-color: #7c3aed;
+    background: #faf5ff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(124,58,237,0.15);
+}
+
+.word-chip.selected {
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(124,58,237,0.30);
+    transform: translateY(-2px);
+}
+
+.word-chip.used {
+    opacity: 0.28;
+    cursor: default;
+    pointer-events: none;
+}
+
+.word-chip.correct-chip {
+    background: #f0fdf4;
+    border-color: #22c55e;
+    color: #15803d;
+}
+
+.word-chip.wrong-chip {
+    background: #fef2f2;
+    border-color: #ef4444;
+    color: #b91c1c;
+}
+
+/* ---------- FEEDBACK ---------- */
+
+.feedback-bar {
+    text-align: center;
+    min-height: 36px;
+    font-size: 18px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.25s;
+    margin-bottom: 6px;
+}
+
+.feedback-bar.show    { opacity: 1; }
+.feedback-bar.correct { color: #16a34a; }
+.feedback-bar.wrong   { color: #dc2626; }
+.feedback-bar.reveal  { color: #7c3aed; }
+
+/* ---------- STREAK BADGE ---------- */
+
+.streak-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 999px;
+    margin: 0 auto 16px;
+    width: fit-content;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s;
+}
+
+.streak-badge.show { opacity: 1; transform: scale(1); }
+
+/* ---------- NEXT BUTTON ---------- */
+
+.next-btn {
+    display: block;
+    margin: 20px auto 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 14px 38px;
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    color: #fff;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0 10px 25px rgba(124,58,237,0.28);
+    transition: transform 0.2s, opacity 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+}
+
+.next-btn.visible {
+    opacity: 1;
+    pointer-events: all;
+    animation: slideUp 0.3s ease both;
+}
+
+.next-btn:hover { transform: translateY(-3px); }
+
+/* skip */
+.skip-link {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.skip-link:hover { color: #7c3aed; }
+
+/* ---------- RESULT SCREEN ---------- */
+
+.result-screen {
+    text-align: center;
+    padding: 60px 20px;
+    animation: slideUp 0.4s ease both;
+}
+
+.result-screen .trophy     { font-size: 72px; margin-bottom: 16px; }
+.result-screen h1          { font-size: 48px; color: #7c3aed; margin-bottom: 10px; }
+.result-screen .sub        { font-size: 20px; color: #64748b; margin-bottom: 6px; }
+.result-screen .big-score  { font-size: 38px; font-weight: 700; color: #13265c; margin-bottom: 10px; }
+.result-screen .accuracy   { font-size: 17px; color: #64748b; margin-bottom: 32px; }
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.result-actions button {
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 14px 28px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    transition: transform 0.2s;
+}
+
+.result-actions button:hover { transform: translateY(-2px); }
+
+.btn-primary   { background: linear-gradient(135deg, #7c3aed, #9333ea); color: #fff; box-shadow: 0 10px 25px rgba(124,58,237,0.30); }
+.btn-secondary { background: white; color: #7c3aed; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 580px) {
+    .fitb-hero h1    { font-size: 36px; }
+    .fitb-section    { padding: 20px 5% 80px; }
+    .sentence-card   { padding: 32px 22px 28px; }
+    .sentence-text   { font-size: 20px; }
+    .blank-slot      { font-size: 20px; min-width: 110px; }
+    .word-chip       { font-size: 16px; padding: 10px 18px; }
+    .hud-progress-wrap { display: none; }
+}
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <section class="fitb-hero">
+        <h1>✏️ Fill in the Blank</h1>
+        <p>Pick the word that completes the sentence!</p>
+    </section>
+
+    <!-- TOP BAR -->
+    <div class="fitb-topbar">
+        <button id="fitb-back-btn" class="fitb-back-btn" type="button">← Back</button>
+        <div class="fitb-hud">
+            <div class="hud-pill" id="hud-score">⭐ 0</div>
+            <div class="hud-pill" id="hud-lives">❤️❤️❤️</div>
+            <div class="hud-pill" id="hud-count">1 / 10</div>
+            <div class="hud-progress-wrap">
+                <div class="hud-progress-bar" id="hud-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME SECTION -->
+    <section class="fitb-section" id="fitb-section">
+
+        <!-- Sentence card -->
+        <div class="sentence-card" id="sentence-card">
+            <div class="q-counter" id="q-counter">Question 1 of 10</div>
+            <div class="sentence-text" id="sentence-text">Loading…</div>
+            <div class="word-length-hint" id="length-hint"></div>
+        </div>
+
+        <!-- Streak badge -->
+        <div class="streak-badge" id="streak-badge">🔥 <span id="streak-count">3</span> in a row!</div>
+
+        <!-- Feedback -->
+        <div class="feedback-bar" id="feedback-bar"></div>
+
+        <!-- Word bank -->
+        <div class="word-bank-label">Word Bank</div>
+        <div class="word-bank" id="word-bank"></div>
+
+        <!-- Next -->
+        <button class="next-btn" id="next-btn" type="button">Next →</button>
+
+        <!-- Skip -->
+        <span class="skip-link" id="skip-link">Skip this one →</span>
+
+    </section>
+
+    <script type="module">
+        
+/* =============================================
+   FILL IN THE BLANK – Vocabria
+============================================= */
+
+/* ---------- QUESTION BANK ----------
+   sentence : use ___ as the blank marker
+   answer   : the correct word (must appear in choices or be generated)
+   choices  : 3 wrong distractors
+   Extend freely!
+---------------------------------------- */
+const QUESTION_BANK = [
+    {
+        sentence : "The explorer showed incredible ___ when she kept going despite the storm.",
+        answer   : "resilience",
+        choices  : ["hesitation", "confusion", "silence"]
+    },
+    {
+        sentence : "Her ___ speech moved everyone in the auditorium to tears.",
+        answer   : "eloquent",
+        choices  : ["clumsy", "boring", "silent"]
+    },
+    {
+        sentence : "The forest was ___ with fruit after the long rainy season.",
+        answer   : "abundant",
+        choices  : ["empty", "frozen", "noisy"]
+    },
+    {
+        sentence : "The instructions were so ___ that nobody could agree on what they meant.",
+        answer   : "ambiguous",
+        choices  : ["simple", "colorful", "cheerful"]
+    },
+    {
+        sentence : "She was ___ in her studies, spending hours every day perfecting her notes.",
+        answer   : "diligent",
+        choices  : ["reckless", "bored", "timid"]
+    },
+    {
+        sentence : "The lake at dawn was completely ___, with no wind and no sound.",
+        answer   : "serene",
+        choices  : ["stormy", "crowded", "freezing"]
+    },
+    {
+        sentence : "He described the sunset in such ___ detail that I could almost see it.",
+        answer   : "vivid",
+        choices  : ["dull", "rapid", "careless"]
+    },
+    {
+        sentence : "Despite many failures, she chose to ___ and eventually mastered the skill.",
+        answer   : "persevere",
+        choices  : ["surrender", "wander", "celebrate"]
+    },
+    {
+        sentence : "The scientist was ___ about her measurements, checking every number twice.",
+        answer   : "meticulous",
+        choices  : ["careless", "hasty", "confused"]
+    },
+    {
+        sentence : "The young boy was ___, always asking questions about how everything worked.",
+        answer   : "inquisitive",
+        choices  : ["indifferent", "sluggish", "timid"]
+    },
+    {
+        sentence : "The puppy's ___ energy made it impossible to sit still for a photo.",
+        answer   : "boundless",
+        choices  : ["quiet", "clumsy", "faint"]
+    },
+    {
+        sentence : "The old map was ___, so the hikers had to guess which trail to take.",
+        answer   : "ambiguous",
+        choices  : ["detailed", "colorful", "huge"]
+    },
+    {
+        sentence : "A truly ___ leader listens to everyone before making a decision.",
+        answer   : "wise",
+        choices  : ["hasty", "stubborn", "nervous"]
+    },
+    {
+        sentence : "The artist used ___ colors that immediately caught everyone's attention.",
+        answer   : "vivid",
+        choices  : ["faded", "tiny", "rough"]
+    },
+    {
+        sentence : "She remained ___ to her friends even when things became difficult.",
+        answer   : "loyal",
+        choices  : ["distant", "jealous", "careless"]
+    },
+];
+
+const QUESTIONS_PER_GAME = 10;
+const MAX_LIVES          = 3;
+
+/* ---------- STATE ---------- */
+let questions = [];
+let current   = 0;
+let score     = 0;
+let lives     = MAX_LIVES;
+let streak    = 0;
+let answered  = false;
+let correctCount = 0;
+
+/* ---------- ELEMENTS ---------- */
+const fitbSection  = document.getElementById('fitb-section');
+const sentenceCard = document.getElementById('sentence-card');
+const qCounter     = document.getElementById('q-counter');
+const sentenceText = document.getElementById('sentence-text');
+const lengthHint   = document.getElementById('length-hint');
+const wordBank     = document.getElementById('word-bank');
+const feedbackBar  = document.getElementById('feedback-bar');
+const nextBtn      = document.getElementById('next-btn');
+const skipLink     = document.getElementById('skip-link');
+const hudScore     = document.getElementById('hud-score');
+const hudLives     = document.getElementById('hud-lives');
+const hudCount     = document.getElementById('hud-count');
+const hudProgress  = document.getElementById('hud-progress');
+const streakBadge  = document.getElementById('streak-badge');
+const streakCount  = document.getElementById('streak-count');
+
+/* ---------- INIT ---------- */
+function init() {
+    questions    = shuffle([...QUESTION_BANK]).slice(0, QUESTIONS_PER_GAME);
+    current      = 0;
+    score        = 0;
+    lives        = MAX_LIVES;
+    streak       = 0;
+    correctCount = 0;
+    updateHUD();
+    loadQuestion();
+}
+
+/* ---------- LOAD QUESTION ---------- */
+function loadQuestion() {
+    const q = questions[current];
+    answered = false;
+
+    // Animate card
+    sentenceCard.style.animation = 'none';
+    sentenceCard.offsetHeight;
+    sentenceCard.style.animation = 'slideUp 0.4s ease both';
+
+    qCounter.textContent = `Question ${current + 1} of ${questions.length}`;
+
+    // Build sentence HTML with styled blank
+    sentenceText.innerHTML = q.sentence.replace(
+        '___',
+        `<span class="blank-slot" id="blank-slot">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`
+    );
+
+    // Length hint
+    lengthHint.textContent = `${q.answer.length} letters`;
+
+    // Build shuffled word bank (correct + 3 distractors)
+    const allChoices = shuffle([q.answer, ...q.choices]);
+
+    wordBank.innerHTML = '';
+    allChoices.forEach(word => {
+        const chip = document.createElement('button');
+        chip.className   = 'word-chip';
+        chip.type        = 'button';
+        chip.textContent = word;
+        chip.dataset.word = word;
+        chip.addEventListener('click', () => handleChoice(word, chip));
+        wordBank.appendChild(chip);
+    });
+
+    // Reset UI
+    feedbackBar.className   = 'feedback-bar';
+    feedbackBar.textContent = '';
+    nextBtn.classList.remove('visible');
+    streakBadge.classList.remove('show');
+
+    // Progress
+    hudProgress.style.width = `${(current / questions.length) * 100}%`;
+    hudCount.textContent    = `${current + 1} / ${questions.length}`;
+}
+
+/* ---------- HANDLE CHOICE ---------- */
+function handleChoice(word, chip) {
+    if (answered) return;
+
+    const q       = questions[current];
+    const isRight = word === q.answer;
+    const blank   = document.getElementById('blank-slot');
+
+    // Disable all chips
+    document.querySelectorAll('.word-chip').forEach(c => {
+        c.style.pointerEvents = 'none';
+    });
+
+    // Fill the blank
+    blank.textContent = word;
+
+    if (isRight) {
+        answered = true;
+        blank.classList.add('correct');
+        chip.classList.add('correct-chip');
+        score  += 10;
+        streak += 1;
+        correctCount++;
+        showFeedback('correct', getPositiveFeedback());
+        if (streak >= 3) showStreakBadge();
+        updateHUD();
+        nextBtn.classList.add('visible');
+    } else {
+        // Wrong — show correct answer, lose a life
+        blank.classList.add('wrong');
+        chip.classList.add('wrong-chip');
+        streak  = 0;
+        lives  -= 1;
+
+        // Reveal correct chip
+        document.querySelectorAll('.word-chip').forEach(c => {
+            if (c.dataset.word === q.answer) {
+                c.classList.add('correct-chip');
+                // Fill blank with correct after brief delay
+                setTimeout(() => {
+                    blank.textContent = q.answer;
+                    blank.classList.remove('wrong');
+                    blank.classList.add('revealed');
+                }, 500);
+            }
+        });
+
+        showFeedback('wrong', `✗ The answer is "${q.answer}"`);
+        updateHUD();
+
+        if (lives <= 0) {
+            answered = true;
+            setTimeout(showResult, 1400);
+            return;
+        }
+
+        answered = true;
+        nextBtn.classList.add('visible');
+    }
+}
+
+/* ---------- NEXT ---------- */
+nextBtn.addEventListener('click', () => {
+    current++;
+    if (current >= questions.length) showResult();
+    else loadQuestion();
+});
+
+/* ---------- SKIP ---------- */
+skipLink.addEventListener('click', () => {
+    if (answered) return;
+    const q     = questions[current];
+    const blank = document.getElementById('blank-slot');
+    blank.textContent = q.answer;
+    blank.classList.add('revealed');
+    document.querySelectorAll('.word-chip').forEach(c => c.style.pointerEvents = 'none');
+    streak = 0;
+    showFeedback('reveal', `Skipped — the answer was "${q.answer}"`);
+    answered = true;
+    nextBtn.classList.add('visible');
+});
+
+/* ---------- FEEDBACK ---------- */
+function showFeedback(type, msg) {
+    feedbackBar.textContent = msg;
+    feedbackBar.className   = `feedback-bar ${type} show`;
+}
+
+function getPositiveFeedback() {
+    const msgs = [
+        '✓ Excellent!', '✓ Perfect!', '✓ Nailed it!',
+        '✓ Great choice!', '✓ Well done!', '✓ Spot on!'
+    ];
+    return msgs[Math.floor(Math.random() * msgs.length)];
+}
+
+/* ---------- STREAK ---------- */
+function showStreakBadge() {
+    streakCount.textContent = streak;
+    streakBadge.classList.add('show');
+}
+
+/* ---------- HUD ---------- */
+function updateHUD() {
+    hudScore.textContent = `⭐ ${score}`;
+    hudLives.textContent = '❤️'.repeat(Math.max(lives, 0)) +
+                           '🖤'.repeat(Math.max(MAX_LIVES - lives, 0));
+}
+
+/* ---------- RESULT SCREEN ---------- */
+import { saveScore } from '../js/scores.js'
+       
+async function showResult() {
+    await saveScore('Fill in Blank', score)
+
+    const total    = questions.length;
+    const pct      = Math.round((correctCount / total) * 100);
+    const emoji    = pct >= 80 ? '🏆' : pct >= 50 ? '🎯' : '📖';
+    const headline = pct >= 80 ? 'Amazing!' : pct >= 50 ? 'Good Work!' : 'Keep Practicing!';
+
+    hudProgress.style.width = '100%';
+
+    fitbSection.innerHTML = `
+        <div class="result-screen">
+            <div class="trophy">${emoji}</div>
+            <h1>${headline}</h1>
+            <p class="sub">You completed all ${total} questions!</p>
+            <p class="big-score">⭐ ${score} pts</p>
+            <p class="accuracy">${correctCount} / ${total} correct &nbsp;·&nbsp; ${pct}% accuracy</p>
+            <div class="result-actions">
+                <button class="btn-primary"   onclick="restartGame()">🔄 Play Again</button>
+                <button class="btn-secondary" onclick="goBack()">← Back to Games</button>
+            </div>
+        </div>
+    `;
+}
+
+/* ---------- RESTART ---------- */
+function restartGame() {
+    fitbSection.innerHTML = `
+        <div class="sentence-card" id="sentence-card">
+            <div class="q-counter"     id="q-counter">Question 1 of 10</div>
+            <div class="sentence-text" id="sentence-text">Loading…</div>
+            <div class="word-length-hint" id="length-hint"></div>
+        </div>
+        <div class="streak-badge" id="streak-badge">🔥 <span id="streak-count">3</span> in a row!</div>
+        <div class="feedback-bar" id="feedback-bar"></div>
+        <div class="word-bank-label">Word Bank</div>
+        <div class="word-bank"    id="word-bank"></div>
+        <button class="next-btn"  id="next-btn"  type="button">Next →</button>
+        <span class="skip-link"   id="skip-link">Skip this one →</span>
+    `;
+    rebindElements();
+    init();
+}
+
+function rebindElements() {
+    Object.assign(window, {
+        sentenceCard : document.getElementById('sentence-card'),
+        qCounter     : document.getElementById('q-counter'),
+        sentenceText : document.getElementById('sentence-text'),
+        lengthHint   : document.getElementById('length-hint'),
+        wordBank     : document.getElementById('word-bank'),
+        feedbackBar  : document.getElementById('feedback-bar'),
+        nextBtn      : document.getElementById('next-btn'),
+        skipLink     : document.getElementById('skip-link'),
+        streakBadge  : document.getElementById('streak-badge'),
+        streakCount  : document.getElementById('streak-count'),
+    });
+    nextBtn.addEventListener('click', () => {
+        current++;
+        if (current >= questions.length) showResult();
+        else loadQuestion();
+    });
+    skipLink.addEventListener('click', () => {
+        if (answered) return;
+        const q = questions[current];
+        const blank = document.getElementById('blank-slot');
+        blank.textContent = q.answer;
+        blank.classList.add('revealed');
+        document.querySelectorAll('.word-chip').forEach(c => c.style.pointerEvents = 'none');
+        streak = 0;
+        showFeedback('reveal', `Skipped — the answer was "${q.answer}"`);
+        answered = true;
+        nextBtn.classList.add('visible');
+    });
+}
+
+/* ---------- BACK ---------- */
+function goBack() {
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = 'games.html';
+}
+
+document.getElementById('fitb-back-btn').addEventListener('click', goBack);
+
+/* ---------- SHUFFLE ---------- */
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+/* ---------- START ---------- */
+init();
+    </script>
+
+</body>
+</html>
