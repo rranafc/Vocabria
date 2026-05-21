@@ -464,6 +464,7 @@ body {
     </section>
 
     <script type="module">
+import { saveScore } from '../js/scores.js';
         
 /* =============================================
    FILL IN THE BLANK – Vocabria
@@ -750,7 +751,7 @@ function updateHUD() {
 }
 
 /* ---------- RESULT SCREEN ---------- */
-import { saveScore } from '../js/scores.js'
+
        
 async function showResult() {
     await saveScore('Fill in Blank', score)
@@ -834,6 +835,9 @@ function goBack() {
     else window.location.href = 'games.html';
 }
 
+
+window.restartGame = restartGame;
+window.goBack = goBack;
 document.getElementById('fitb-back-btn').addEventListener('click', goBack);
 
 /* ---------- SHUFFLE ---------- */

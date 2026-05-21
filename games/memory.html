@@ -251,6 +251,7 @@ body {
     </section>
 
     <script type="module">
+import { saveScore } from '../js/scores.js';
 /* =============================================
    MEMORY MATCH LOGIC – Vocabria
 ============================================= */
@@ -359,7 +360,7 @@ function updateHUD() {
 }
 
 /* ---------- WIN SCREEN ---------- */
-import { saveScore } from '../js/scores.js';
+
 
 function showWinScreen() {
 
@@ -387,8 +388,6 @@ function showWinScreen() {
             </div>
         </div>
     `;
-    window.restartGame = restartGame;
-    window.goBack = goBack;
 }
 
 /* ---------- RESTART ---------- */
@@ -403,6 +402,9 @@ function goBack() {
     else window.location.href = 'games.html';
 }
 
+
+window.restartGame = restartGame;
+window.goBack = goBack;
 document.getElementById('memory-back-btn').addEventListener('click', goBack);
 
 /* ---------- SHUFFLE ---------- */

@@ -462,6 +462,7 @@ body {
     </section>
 
     <script type="module">
+import { saveScore } from '../js/scores.js';
         
 
 
@@ -774,7 +775,7 @@ function updateHUD() {
 }
 
 /* ---------- RESULT SCREEN ---------- */
-import { saveScore } from '../js/scores.js';
+
 
 async function showResult() {
 
@@ -914,6 +915,9 @@ function goBack() {
     else window.location.href = 'games.html';
 }
 
+
+window.restartGame = restartGame;
+window.goBack = goBack;
 document.getElementById('scramble-back-btn').addEventListener('click', goBack);
 
 /* ---------- SHUFFLE ---------- */
