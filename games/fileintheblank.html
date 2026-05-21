@@ -780,21 +780,7 @@ async function showResult() {
 
 /* ---------- RESTART ---------- */
 function restartGame() {
-    fitbSection.innerHTML = `
-        <div class="sentence-card" id="sentence-card">
-            <div class="q-counter"     id="q-counter">Question 1 of 10</div>
-            <div class="sentence-text" id="sentence-text">Loading…</div>
-            <div class="word-length-hint" id="length-hint"></div>
-        </div>
-        <div class="streak-badge" id="streak-badge">🔥 <span id="streak-count">3</span> in a row!</div>
-        <div class="feedback-bar" id="feedback-bar"></div>
-        <div class="word-bank-label">Word Bank</div>
-        <div class="word-bank"    id="word-bank"></div>
-        <button class="next-btn"  id="next-btn"  type="button">Next →</button>
-        <span class="skip-link"   id="skip-link">Skip this one →</span>
-    `;
-    rebindElements();
-    init();
+    window.location.reload();
 }
 
 function rebindElements() {

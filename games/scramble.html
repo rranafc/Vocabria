@@ -829,26 +829,7 @@ async function showResult() {
 
 /* ---------- RESTART ---------- */
 function restartGame() {
-    section.innerHTML = `
-        <div class="clue-card" id="clue-card">
-            <div class="word-counter"  id="word-counter">Word 1 of 10</div>
-            <div class="clue-label">Definition</div>
-            <div class="clue-text"    id="clue-text">Loading…</div>
-        </div>
-        <div class="streak-badge" id="streak-badge">🔥 <span id="streak-count">3</span> in a row!</div>
-        <div class="answer-wrap"    id="answer-wrap"></div>
-        <div class="scrambled-wrap" id="scrambled-wrap"></div>
-        <div class="hint-dots"      id="hint-dots"></div>
-        <div class="feedback-bar"   id="feedback-bar"></div>
-        <div class="scramble-actions">
-            <button class="btn-hint"  id="btn-hint"  type="button">💡 Hint</button>
-            <button class="btn-check" id="btn-check" type="button" disabled>Check ✓</button>
-            <button class="btn-clear" id="btn-clear" type="button">Clear ↺</button>
-        </div>
-        <span class="skip-link" id="skip-link">Skip this word →</span>
-    `;
-    rebindElements();
-    init();
+    window.location.reload();
 }
 
 function rebindElements() {

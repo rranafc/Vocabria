@@ -680,19 +680,7 @@ async function showResult() {
 
 /* ---------- RESTART ---------- */
 function restartQuiz() {
-    qSection.innerHTML = `
-        <div class="question-card" id="question-card">
-            <div class="question-number" id="question-number">Question 1 of 10</div>
-            <div class="question-text"  id="question-text">Loading…</div>
-        </div>
-        <div class="streak-badge" id="streak-badge">🔥 <span id="streak-count">3</span> in a row!</div>
-        <div class="choices-grid" id="choices-grid"></div>
-        <div class="feedback-bar" id="feedback-bar"></div>
-        <button class="next-btn" id="next-btn" type="button">Next Question →</button>
-    `;
-    // Re-bind elements
-    reassignElements();
-    init();
+    window.location.reload();
 }
 
 function reassignElements() {
